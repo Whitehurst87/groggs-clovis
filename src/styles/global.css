@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/* -------------------------------------------------------------------------- */
+/*  Grogg's Traditional Irish Pub — design tokens                              */
+/*  Source of truth: design.md                                                 */
+/* -------------------------------------------------------------------------- */
+@theme {
+  /* Brand colors */
+  --color-pub-green: #157a36;
+  --color-pub-green-dark: #0f5a28;
+  --color-pub-green-light: #1d9c46;
+
+  /* Wood / background */
+  --color-wood-dark: #2b1a10;
+  --color-wood-darker: #1a0f0a;
+  --color-wood-mid: #3a2418;
+
+  /* Text */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #d1d1d1;
+  --color-text-muted: #9a9a9a;
+
+  /* Typography */
+  --font-display: "Cinzel", "Playfair Display", Georgia, serif;
+  --font-body: "Lato", "Open Sans", system-ui, -apple-system, sans-serif;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  CSS variables (also exposed as plain CSS custom props for JS / inline use) */
+/* -------------------------------------------------------------------------- */
+:root {
+  --pub-green: #157a36;
+  --pub-green-dark: #0f5a28;
+  --wood-dark: #2b1a10;
+  --wood-darker: #1a0f0a;
+  --text-primary: #ffffff;
+  --text-secondary: #d1d1d1;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Base                                                                       */
+/* -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--wood-darker);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-feature-settings: "kern", "liga";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
+
+  /* Convenience uppercase utility for display headings */
+  .display-caps {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+}

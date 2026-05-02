@@ -1,0 +1,15 @@
+/*
+ * Self-hosted fonts via @fontsource.
+ * Importing here keeps font-loading out of the critical-path Tailwind layer.
+ */
+
+/* Cinzel — display / headings */
+@import "@fontsource/cinzel/400.css";
+@import "@fontsource/cinzel/600.css";
+@import "@fontsource/cinzel/700.css";
+
+/* Lato — body */
+@import "@fontsource/lato/300.css";
+@import "@fontsource/lato/400.css";
+@import "@fontsource/lato/700.css";
+@import "@fontsource/lato/900.css";

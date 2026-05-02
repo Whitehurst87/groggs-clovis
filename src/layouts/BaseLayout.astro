@@ -1,0 +1,38 @@
+---
+/**
+ * BaseLayout
+ * --------------------------------------------------------------------------
+ * Minimal scaffolding for Phase 0. The fully-fledged <head> SEO defaults,
+ * <SEO> component, header, footer, and sticky mobile bar are built out in
+ * Phase 1.
+ */
+import "../styles/fonts.css";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Grogg's Traditional Irish Pub | Clovis, CA",
+  description = "Where Tradition Meets Modern Hospitality. A neighborhood Irish pub in Clovis, California serving traditional fare, craft beer, and live entertainment.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-wood-darker text-text-primary font-body antialiased">
+    <main class="min-h-screen">
+      <slot />
+    </main>
+  </body>
+</html>
