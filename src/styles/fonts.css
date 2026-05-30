@@ -7,6 +7,8 @@
 @import "@fontsource/cinzel/400.css";
 @import "@fontsource/cinzel/600.css";
 @import "@fontsource/cinzel/700.css";
+@import "@fontsource/cinzel/900.css";
+
 
 /* Lato — body */
 @import "@fontsource/lato/300.css";
@@ -14,11 +16,9 @@
 @import "@fontsource/lato/700.css";
 @import "@fontsource/lato/900.css";
 
-/* Sporty Pro XBold Inline XP — Alternate Heading Font */
-@font-face {
-  font-family: 'Sporty Pro XBold Inline XP';
-  src: url('/fonts/sporty-pro-xbold-inline-xp.otf') format('opentype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
+/* Outfit — alternate heading */
+@import "@fontsource/outfit/400.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
+@import "@fontsource/outfit/900.css";
+

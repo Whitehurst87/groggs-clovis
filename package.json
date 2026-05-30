@@ -21,6 +21,7 @@
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource/cinzel": "^5.2.8",
     "@fontsource/lato": "^5.2.7",
+    "@fontsource/outfit": "^5.2.8",
     "@tailwindcss/vite": "^4.2.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
