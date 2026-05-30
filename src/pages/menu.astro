@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from "astro:assets";
+import { MenuFilter } from '../components/react/MenuFilter';
+import heroBg from "../assets/images/Wings and Beer.jpg";
+import { getCollection } from 'astro:content';
+import { generateMenuSchema } from '../lib/schema';
+
+const menuItems = await getCollection('menu');
+const menuSchema = generateMenuSchema(menuItems);
+
+// Transform for React component
+const reactItems = menuItems.map(item => ({
+  name: item.data.name,
+  description: item.data.description,
+  price: item.data.price,
+  category: item.data.category,
+  tags: item.data.tags || [],
+  image: item.data.image?.src
+}));
+---
+
+<BaseLayout 
+  title="Menu | Grogg's Traditional Irish Pub"
+  description="Explore our authentic Irish menu featuring traditional classics, American pub fare, and an extensive selection of beers and spirits."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(menuSchema)} />
+
+  <section class="relative flex min-h-[50vh] flex-col items-center justify-center overflow-hidden px-6 py-20 text-center mb-10">
+    <div class="absolute inset-0 z-0">
+      <Image
+        src={heroBg}
+        alt="Wings and Beer at Grogg's"
+        class="h-full w-full object-cover brightness-[0.4]"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-wood-darker/70 via-transparent to-wood-darker"></div>
+    </div>
+    <div class="relative z-10 flex flex-col items-center gap-6 max-w-3xl">
+      <p class="display-caps text-[#f5f82f] text-sm tracking-[0.5em]">A Taste of Ireland in Clovis</p>
+      <h1 class="font-alternate uppercase tracking-wide text-5xl sm:text-6xl text-[#f5f82f] leading-[1.1] drop-shadow-2xl">Our Menu</h1>
+      <p class="font-body text-text-secondary text-lg max-w-2xl leading-relaxed">
+        From our signature beer-battered Fish & Chips to our perfectly poured Guinness, every item is prepared with tradition and quality in mind.
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-20 overflow-hidden">
+    <div class="container mx-auto px-4 relative z-10">
+      <MenuFilter client:load items={reactItems} />
+
+      <!-- Live Taps Placeholder -->
+      <div class="mt-24 bg-wood-darker border border-pub-green/20 p-12 rounded-xl text-center">
+        <h2 class="font-cinzel text-3xl text-white mb-6 uppercase">Live Tap List</h2>
+        <div class="flex items-center justify-center gap-4 text-pub-green mb-8">
+          <div class="h-px w-12 bg-pub-green/30"></div>
+          <span class="font-cinzel tracking-widest uppercase">Powered by Untappd</span>
+          <div class="h-px w-12 bg-pub-green/30"></div>
+        </div>
+        <p class="text-text-secondary font-lato mb-8 max-w-xl mx-auto">
+          We're currently updating our real-time tap list. Check back soon or visit us to see what's currently pouring from our 24 rotating taps.
+        </p>
+        <div class="animate-pulse flex flex-col gap-4 max-w-md mx-auto">
+          <div class="h-4 bg-white/5 rounded w-full"></div>
+          <div class="h-4 bg-white/5 rounded w-3/4 mx-auto"></div>
+          <div class="h-4 bg-white/5 rounded w-5/6 mx-auto"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

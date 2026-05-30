@@ -1,28 +1,80 @@
 ---
+/**
+ * index.astro — Home page
+ * --------------------------------------------------------------------------
+ * Phase 2 Home Page implementation.
+ * Assembles modular components and fetches dynamic content from collections.
+ */
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Phase 2 Components
+import Hero from "../components/Hero.astro";
+import Marquee from "../components/Marquee.astro";
+import OurStory from "../components/OurStory.astro";
+import KaraokePromo from "../components/KaraokePromo.astro";
+import GoogleReviews from "../components/GoogleReviews.astro";
+import InstagramFeed from "../components/InstagramFeed.astro";
+
+// Schema.org JSON-LD
+const schema = {
+  "@context": "https://schema.org",
+  "@type": ["Restaurant", "Bar"],
+  "name": "Grogg's Traditional Irish Pub",
+  "image": "https://www.groggsclovis.com/site-logo.png",
+  "@id": "https://www.groggsclovis.com",
+  "url": "https://www.groggsclovis.com",
+  "telephone": "+15551234567", // Placeholder
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "123 Main St", // Placeholder
+    "addressLocality": "Clovis",
+    "addressRegion": "CA",
+    "postalCode": "93612",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 36.8252,
+    "longitude": -119.7029
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "11:00",
+      "closes": "00:00"
+    }
+  ],
+  "menu": "https://www.groggsclovis.com/menu",
+  "servesCuisine": ["Irish", "Pub Fare"],
+  "priceRange": "$$"
+};
 ---
 
-<BaseLayout>
-  <section
-    class="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center"
-  >
-    <p
-      class="text-pub-green-light display-caps text-sm tracking-[0.4em]"
-    >
-      Phase 0 — Bootstrap Complete
-    </p>
-    <h1 class="display-caps text-4xl sm:text-6xl">
-      Grogg's Traditional Irish Pub
-    </h1>
-    <p class="text-text-secondary max-w-xl text-lg">
-      Where Tradition Meets Modern Hospitality. The new groggsclovis.com is
-      under construction — stay tuned.
-    </p>
-    <a
-      href="#"
-      class="bg-pub-green hover:bg-pub-green-dark inline-flex items-center justify-center rounded-sm px-8 py-3 font-semibold tracking-wider text-white uppercase transition-colors"
-    >
-      View Menu
-    </a>
-  </section>
+<BaseLayout
+  title="Grogg's Traditional Irish Pub | Clovis, CA"
+  description="Where Tradition Meets Modern Hospitality. Authentic Irish food, perfectly poured Guinness, and the best whiskey selection in Clovis."
+>
+  <!-- Inject Schema.org JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <Hero />
+
+  <Marquee />
+
+  <OurStory />
+
+  <GoogleReviews />
+
+  <KaraokePromo />
+
+  <InstagramFeed />
 </BaseLayout>

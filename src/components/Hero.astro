@@ -1,0 +1,82 @@
+---
+/**
+ * Hero.astro
+ * --------------------------------------------------------------------------
+ * Main landing section for the Home Page.
+ * Features a full-width atmosphere image, brand wordmark, and primary CTA.
+ */
+import { Image } from "astro:assets";
+import Button from "./Button.astro";
+import heroBg from "../assets/images/Interior Bar.png";
+
+interface Props {
+  title?: string;
+  tagline?: string;
+  ctaText?: string;
+  ctaHref?: string;
+}
+
+const {
+  title = "Grogg's Traditional Irish Pub",
+  tagline = "Serving Smiles by the Pint",
+  ctaText = "View Menu",
+  ctaHref = "/menu",
+} = Astro.props;
+---
+
+<section class="relative flex min-h-[85vh] flex-col items-center justify-center overflow-hidden px-6 py-20 text-center">
+  <!-- Background Image & Overlay -->
+  <div class="absolute inset-0 z-0">
+    <!-- Local image representing a warm pub atmosphere -->
+    <Image
+      src={heroBg}
+      alt="Atmospheric Irish Pub Interior at Grogg's"
+      class="h-full w-full object-cover brightness-[0.4]"
+    />
+    <!-- Deep gradient scrim to ground the content and ensure legibility -->
+    <div class="absolute inset-0 bg-gradient-to-b from-wood-darker/60 via-transparent to-wood-darker"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 flex flex-col items-center gap-6 max-w-4xl">
+    <p class="display-caps text-[#f5f82f] text-sm sm:text-base tracking-[0.5em] animate-fade-in">
+      Est. 2012 Clovis, California
+    </p>
+    
+    <h1 class="font-alternate text-4xl sm:text-5xl lg:text-7xl text-[#f5f82f] leading-[1.1] drop-shadow-2xl uppercase tracking-wide">
+      {title.split(' ').map((word) => (
+        <span class="block sm:inline">{word}{' '}</span>
+      ))}
+    </h1>
+
+    <p class="font-body text-text-secondary text-lg sm:text-xl lg:text-2xl max-w-2xl leading-relaxed mt-2 italic">
+      "{tagline}"
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-4 mt-8">
+      <Button href={ctaHref} size="lg" class="px-10 py-4 text-lg">
+        {ctaText}
+      </Button>
+      <Button href="/events" variant="outline" size="lg" class="px-10 py-4 text-lg">
+        What's On
+      </Button>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce opacity-50">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+      <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+    </svg>
+  </div>
+</section>
+
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 1s ease-out forwards;
+  }
+</style>

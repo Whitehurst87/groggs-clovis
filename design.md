@@ -41,7 +41,7 @@
 
 ### Announcement Bar / Marquee
 * **Background:** Solid green (matches header).
-* **Content:** Scrolling or static inline text highlighting weekly events (e.g., "WHAT'S ON: TRIVIA NIGHT - TUESDAYS | LIVE DJs - FRIDAYS & SATURDAYS | CRAFT BEER TASTING - THURSDAYS").
+* **Content:** Scrolling or static inline text highlighting events (e.g., "WHAT'S ON: KARAOKE - WEDNESDAYS | LIVE SPORTS ALL WEEKEND").
 
 ### Our Brews & Spirits Section
 * **Background:** Dark woodgrain.
@@ -66,3 +66,4 @@
 ## 6. Image Style Guidelines
 * **Photography:** Warm, moody lighting. High contrast. Food and drink shots should be close-up, appetizing, and professionally styled against dark, rustic backgrounds to match the website's woodgrain.
 * **Lifestyle:** Images of people should convey a lively, friendly, and authentic pub atmosphere.
+ely, friendly, and authentic pub atmosphere.

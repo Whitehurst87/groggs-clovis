@@ -1,0 +1,137 @@
+---
+import { Image } from "astro:assets";
+import siteLogo from "../assets/images/site logo.png";
+
+/**
+ * Footer.astro
+ * --------------------------------------------------------------------------
+ * 3-column grid: Contact · Hours · Quick Links
+ * Bottom bar: solid green with shamrock + dynamic copyright year.
+ * Matches the design.md footer specification.
+ */
+---
+
+<footer class="bg-wood-darker border-t border-wood-mid">
+  <!-- 3-column grid -->
+  <div class="mx-auto max-w-7xl px-6 py-12 sm:px-8 lg:px-12">
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+
+      <!-- Column 1 — Contact -->
+      <div class="flex flex-col gap-4">
+        <h3 class="display-caps text-sm text-pub-green tracking-widest">
+          Contact Us
+        </h3>
+        <address class="not-italic flex flex-col gap-2 text-text-secondary font-body text-sm leading-relaxed">
+          <span>1225 N Willow Ave #180</span>
+          <span>Clovis, CA 93611</span>
+          <a
+            href="tel:+15593230433"
+            class="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-pub-green"
+          >
+            (559) 323-0433
+          </a>
+          <a
+            href="mailto:hello@groggsclovis.com"
+            class="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-pub-green"
+          >
+            hello@groggsclovis.com
+          </a>
+        </address>
+        <!-- Social links -->
+        <div class="flex gap-4 mt-1">
+          <a
+            href="https://www.facebook.com/groggspub"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Grogg's on Facebook"
+            class="text-text-muted hover:text-white transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+          </a>
+          <a
+            href="https://www.instagram.com/groggspub"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Grogg's on Instagram"
+            class="text-text-muted hover:text-white transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 2 — Hours -->
+      <div class="flex flex-col gap-4">
+        <h3 class="display-caps text-sm text-pub-green tracking-widest">
+          Hours
+        </h3>
+        <table class="font-body text-sm text-text-secondary w-full border-collapse">
+          <tbody>
+            {[
+              ["Mon – Sun", "11:00 AM – 12:00 AM"],
+            ].map(([day, hours]) => (
+              <tr class="border-b border-wood-mid/50 last:border-0">
+                <td class="py-1.5 pr-4 font-semibold text-text-primary whitespace-nowrap">{day}</td>
+                <td class="py-1.5 text-text-secondary">{hours}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p class="text-text-muted text-xs font-body mt-1">
+          Kitchen closes 30 min before closing.
+        </p>
+      </div>
+
+      <!-- Column 3 — Quick Links -->
+      <div class="flex flex-col gap-4">
+        <h3 class="display-caps text-sm text-pub-green tracking-widest">
+          Quick Links
+        </h3>
+        <nav aria-label="Footer navigation">
+          <ul class="flex flex-col gap-2">
+            {[
+              { label: "View Menu", href: "/menu" },
+              { label: "Upcoming Events", href: "/events" },
+              { label: "Private Catering", href: "/catering" },
+              { label: "Photo Gallery", href: "/gallery" },
+              { label: "Contact & Directions", href: "/contact" },
+            ].map(({ label, href }) => (
+              <li>
+                <a
+                  href={href}
+                  class="font-body text-sm text-text-secondary hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-pub-green"
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom green bar -->
+  <div class="bg-pub-green">
+    <div class="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-center gap-3 px-6 py-3 text-center">
+      <Image
+        src={siteLogo}
+        alt="Grogg's Logo"
+        width={20}
+        height={20}
+        class="h-5 w-auto brightness-0 invert"
+      />
+      <p class="font-body text-xs text-white/90 tracking-wide">
+        © <span id="footer-year">{new Date().getFullYear()}</span>
+        {" "}Grogg's Traditional Irish Pub · Clovis, CA · All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>

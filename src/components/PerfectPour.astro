@@ -1,0 +1,63 @@
+---
+/**
+ * PerfectPour.astro
+ * --------------------------------------------------------------------------
+ * Feature block addressing the Guinness pour quality.
+ */
+import SectionTitle from "./SectionTitle.astro";
+---
+
+<section class="bg-wood-darker/50 border-y border-white/5 relative overflow-hidden">
+  <!-- Subtle background graphic/texture -->
+  <div class="absolute right-0 top-0 w-1/3 h-full bg-pub-green/5 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2"></div>
+  
+  <div class="mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:px-12">
+    <div class="flex flex-col lg:flex-row items-center gap-16">
+      <!-- Image side -->
+      <div class="w-full lg:w-1/2 order-2 lg:order-1">
+        <div class="relative max-w-md mx-auto lg:mx-0">
+          <div class="absolute -inset-1 bg-gradient-to-r from-pub-green to-pub-green-light rounded-lg blur opacity-25"></div>
+          <div class="relative bg-wood-dark rounded-lg overflow-hidden shadow-2xl border border-white/10">
+            <img
+              src="https://images.unsplash.com/photo-1594631252845-29fc4586c55c?auto=format&fit=crop&q=80&w=800"
+              alt="A perfectly poured pint of Guinness"
+              class="w-full aspect-square object-cover"
+            />
+          </div>
+          
+          <!-- Quality Stamp -->
+          <div class="absolute -bottom-6 -right-6 h-32 w-32 bg-pub-green rounded-full flex flex-col items-center justify-center border-4 border-wood-darker shadow-xl transform rotate-12">
+            <span class="display-caps text-white text-[10px] tracking-tighter opacity-80 uppercase">The Master</span>
+            <span class="display-caps text-white text-xl font-bold uppercase">Pour</span>
+            <div class="w-8 h-px bg-white/40 my-1"></div>
+            <span class="display-caps text-white text-[10px] tracking-widest uppercase">Certified</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text side -->
+      <div class="w-full lg:w-1/2 order-1 lg:order-2">
+        <SectionTitle align="left" subtitle="Precision in every glass">
+          The Perfect Pour
+        </SectionTitle>
+        
+        <div class="mt-8 flex flex-col gap-6 font-body text-text-secondary text-lg leading-relaxed">
+          <p>
+            At Grogg's, we believe a pint of Guinness isn't just a drink — it's 
+            a work of art that requires patience, technique, and respect. 
+            We've heard the critiques, and we've doubled down on our craft.
+          </p>
+          <p class="border-l-4 border-pub-green pl-6 py-2 italic bg-pub-green/5 rounded-r">
+            "We pour the proper two-part settle, every single time. No shortcuts, 
+            no rushed glasses. Just creamy, nitrogenated perfection at exactly 42°F."
+          </p>
+          <p>
+            Our bartenders are trained in the traditional methods to ensure 
+            the iconic head is thick enough to hold a shamrock and the 
+            body is deep, dark, and smooth.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

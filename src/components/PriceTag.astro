@@ -1,0 +1,37 @@
+---
+/**
+ * PriceTag.astro
+ * --------------------------------------------------------------------------
+ * Small green rectangular badge displaying a price.
+ * Matches the design.md spec: "Small, distinct green rectangular blocks
+ * with white text displaying the price."
+ *
+ * Usage:
+ *   <PriceTag price={11.50} />
+ *   <PriceTag price="Market Price" />
+ */
+
+interface Props {
+  /** Numeric price (formatted as USD) or a custom string like "Market Price". */
+  price: number | string;
+  /** Additional classes for layout tweaks. */
+  class?: string;
+}
+
+const { price, class: className = "" } = Astro.props;
+
+const formatted =
+  typeof price === "number"
+    ? new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+      }).format(price)
+    : price;
+---
+
+<span
+  class={`inline-block bg-pub-green text-white text-xs font-bold font-body tracking-wider px-2.5 py-1 rounded-sm ${className}`}
+>
+  {formatted}
+</span>

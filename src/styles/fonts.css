@@ -13,3 +13,12 @@
 @import "@fontsource/lato/400.css";
 @import "@fontsource/lato/700.css";
 @import "@fontsource/lato/900.css";
+
+/* Sporty Pro XBold Inline XP — Alternate Heading Font */
+@font-face {
+  font-family: 'Sporty Pro XBold Inline XP';
+  src: url('/fonts/sporty-pro-xbold-inline-xp.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}

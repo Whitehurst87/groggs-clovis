@@ -1,0 +1,51 @@
+---
+/**
+ * Marquee.astro
+ * --------------------------------------------------------------------------
+ * CSS-only scrolling announcement bar.
+ */
+const announcements = [
+  "Karaoke Wednesdays @ 8PM",
+  "Live Sports & UFC Nights",
+  "Hosting Private Events & Catering",
+  "Happy Hour Mon-Fri 4PM - 6PM",
+  "The Best Guinness in Clovis",
+];
+
+// Duplicate for seamless loop
+const items = [...announcements, ...announcements];
+---
+
+<div class="relative w-full overflow-hidden bg-pub-green py-3 border-y border-white/10 shadow-lg z-20">
+  <div class="marquee-container flex whitespace-nowrap">
+    {items.map((text) => (
+      <div class="flex items-center mx-10">
+        <span class="display-caps text-[#f5f82f] text-xs sm:text-sm tracking-widest font-bold">
+          {text}
+        </span>
+        <span class="mx-8 text-white/40">/</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee-container {
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Pause on hover for accessibility/readability */
+  .marquee-container:hover {
+    animation-play-state: paused;
+  }
+</style>

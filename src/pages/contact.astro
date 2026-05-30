@@ -1,0 +1,215 @@
+---
+/**
+ * contact.astro
+ * --------------------------------------------------------------------------
+ * Contact page:
+ *  - Business info (address, phone, click-to-call)
+ *  - Hours table (11am – midnight daily)
+ *  - Get Directions deep links (Google Maps + Apple Maps)
+ *  - Embedded Google Map (placeholder — swap iframe once real address confirmed)
+ *  - Contact form (React island → Formspree)
+ *
+ * LocalBusiness / Restaurant JSON-LD with openingHoursSpecification is
+ * included to reinforce the Clovis location signal for local SEO.
+ */
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import SectionTitle from "../components/SectionTitle.astro";
+import ContactForm from "../components/react/ContactForm";
+import heroBg from "../assets/images/exterior sign daytime.webp";
+import { generateRestaurantSchema } from "../lib/schema";
+
+const schema = generateRestaurantSchema();
+
+// Placeholder address — update once confirmed with client
+const ADDRESS_LINE1 = "1225 N Willow Ave #180";
+const ADDRESS_CITY  = "Clovis, CA 93611";
+const ADDRESS_FULL  = `${ADDRESS_LINE1}, ${ADDRESS_CITY}`;
+const PHONE_DISPLAY = "(559) 323-0433";
+const PHONE_HREF    = "tel:+15593230433";
+
+// Deep links — update query param once real address is confirmed
+const GMAPS_URL  = `https://maps.google.com/?q=${encodeURIComponent(ADDRESS_FULL)}`;
+const AMAPS_URL  = `maps://maps.apple.com/?address=${encodeURIComponent(ADDRESS_FULL)}`;
+
+const hours = [
+  { day: "Monday",    open: "11:00 AM", close: "12:00 AM" },
+  { day: "Tuesday",   open: "11:00 AM", close: "12:00 AM" },
+  { day: "Wednesday", open: "11:00 AM", close: "12:00 AM" },
+  { day: "Thursday",  open: "11:00 AM", close: "12:00 AM" },
+  { day: "Friday",    open: "11:00 AM", close: "12:00 AM" },
+  { day: "Saturday",  open: "11:00 AM", close: "12:00 AM" },
+  { day: "Sunday",    open: "11:00 AM", close: "12:00 AM" },
+];
+
+// Determine today's day name for highlight
+const todayName = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(new Date());
+---
+
+<BaseLayout
+  title="Contact & Hours | Grogg's Traditional Irish Pub"
+  description="Find Grogg's Traditional Irish Pub in Clovis, CA. Get directions, view our hours, and send us a message. Open 7 days a week from 11am to midnight."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <!--  Hero Section                                                           -->
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <section class="relative flex min-h-[40vh] flex-col items-center justify-center overflow-hidden px-6 py-20 text-center mb-10">
+    <div class="absolute inset-0 z-0">
+      <Image
+        src={heroBg}
+        alt="Grogg's exterior during the day"
+        class="h-full w-full object-cover brightness-[0.4]"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-wood-darker/70 via-transparent to-wood-darker"></div>
+    </div>
+    <div class="relative z-10 flex flex-col items-center gap-6 max-w-3xl">
+      <p class="display-caps text-[#f5f82f] text-sm tracking-[0.5em]">We'd love to hear from you</p>
+      <h1 class="font-alternate uppercase tracking-wide text-5xl sm:text-6xl text-[#f5f82f] leading-[1.1] drop-shadow-2xl">Contact & Hours</h1>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <!--  Info + Map grid                                                        -->
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <section class="pb-20 px-4">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12">
+
+      <!-- ── Left column: address, phone, hours ──────────────────────────── -->
+      <div class="space-y-10">
+
+        <!-- Address & directions -->
+        <div class="rounded-sm border border-wood-mid bg-wood-dark p-8">
+          <h2 class="display-caps text-lg text-text-primary mb-6 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-pub-green shrink-0" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            Find Us
+          </h2>
+
+          <address class="not-italic text-text-secondary text-sm leading-loose mb-6">
+            <strong class="text-text-primary font-semibold">Grogg's Traditional Irish Pub</strong><br />
+            {ADDRESS_LINE1}<br />
+            {ADDRESS_CITY}
+          </address>
+
+          <div class="flex flex-wrap gap-3">
+            <a
+              href={GMAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-sm bg-pub-green px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-white transition-all hover:bg-pub-green-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pub-green focus-visible:ring-offset-2 focus-visible:ring-offset-wood-dark"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              Google Maps
+            </a>
+            <a
+              href={AMAPS_URL}
+              class="inline-flex items-center gap-2 rounded-sm border border-wood-mid px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-text-secondary transition-all hover:border-pub-green/50 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pub-green focus-visible:ring-offset-2 focus-visible:ring-offset-wood-dark"
+            >
+              Apple Maps
+            </a>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="rounded-sm border border-wood-mid bg-wood-dark p-8">
+          <h2 class="display-caps text-lg text-text-primary mb-6 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-pub-green shrink-0" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.33h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.9a16 16 0 0 0 6.06 6.06l.88-.88a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.09z"/></svg>
+            Call Us
+          </h2>
+          <a
+            href={PHONE_HREF}
+            class="text-3xl font-display text-pub-green hover:text-pub-green-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pub-green rounded-sm"
+          >
+            {PHONE_DISPLAY}
+          </a>
+          <p class="mt-2 text-xs text-text-muted">Tap to call on mobile</p>
+        </div>
+
+        <!-- Hours table -->
+        <div class="rounded-sm border border-wood-mid bg-wood-dark p-8">
+          <h2 class="display-caps text-lg text-text-primary mb-6 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-pub-green shrink-0" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Hours
+          </h2>
+          <table class="w-full text-sm" aria-label="Opening hours">
+            <tbody>
+              {hours.map(({ day, open, close }) => {
+                const isToday = day === todayName;
+                return (
+                  <tr class={[
+                    "border-b border-wood-mid last:border-0",
+                    isToday ? "text-text-primary" : "text-text-secondary",
+                  ].join(" ")}>
+                    <td class={["py-2.5 pr-4 font-medium", isToday ? "text-pub-green font-semibold" : ""].join(" ")}>
+                      {isToday ? `${day} (Today)` : day}
+                    </td>
+                    <td class="py-2.5 text-right tabular-nums">
+                      {open} – {close}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <p class="mt-4 text-xs text-text-muted">Kitchen hours may vary. Last call 30 min before close.</p>
+        </div>
+      </div>
+
+      <!-- ── Right column: map ─────────────────────────────────────────────── -->
+      <div class="flex flex-col gap-6">
+        <div class="rounded-sm border border-wood-mid overflow-hidden aspect-[4/3] lg:aspect-auto lg:flex-1 bg-wood-dark">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.5730897214057!2d-119.72870820000001!3d36.85269909999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80945cf6e9b47773%3A0x7d4dc8c1e505e00e!2sGroggs%20Traditional%20Irish%20Pub!5e0!3m2!1sen!2sus!4v1779052055729!5m2!1sen!2sus"
+            width="100%"
+            height="100%"
+            style="border:0; filter: grayscale(10%) contrast(105%) brightness(95%);"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="block w-full h-full min-h-[350px]"
+            title="Google Maps location of Grogg's Traditional Irish Pub"
+          ></iframe>
+        </div>
+
+        <!-- Social quick links -->
+        <div class="rounded-sm border border-wood-mid bg-wood-dark p-6">
+          <h3 class="display-caps text-sm text-text-secondary mb-4">Also Find Us On</h3>
+          <div class="flex flex-wrap gap-3">
+            {[
+              { label: "Facebook", href: "https://www.facebook.com/profile.php?id=100057293602987", icon: `<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>` },
+              { label: "Instagram", href: "https://www.instagram.com/groggsclovis/", icon: `<rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>` },
+              { label: "Yelp", href: "https://www.yelp.com/biz/groggs-traditional-irish-pub-clovis", icon: `<path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm-1-9h2v5h-2zm0-4h2v2h-2z"/>` },
+            ].map(({ label, href, icon }) => (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 rounded-sm border border-wood-mid px-4 py-2 text-xs font-medium uppercase tracking-wider text-text-muted hover:border-pub-green/50 hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pub-green"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icon} />
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <!--  Contact form                                                           -->
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <section class="pb-20 px-4 bg-wood-dark/50">
+    <div class="max-w-3xl mx-auto pt-20">
+      <SectionTitle subtitle="Send us a message and we'll get back to you soon">
+        Get in Touch
+      </SectionTitle>
+
+      <div class="mt-14 rounded-sm border border-wood-mid bg-wood-dark p-6 sm:p-10">
+        <ContactForm client:load />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

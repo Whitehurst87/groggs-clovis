@@ -1,0 +1,81 @@
+---
+/**
+ * SEO.astro
+ * --------------------------------------------------------------------------
+ * Drop this inside <head> of any layout. Accepts page-level overrides; falls
+ * back to sensible site-wide defaults for every property.
+ *
+ * Usage:
+ *   <SEO
+ *     title="Menu | Grogg's Traditional Irish Pub"
+ *     description="Browse our full menu…"
+ *     image="/og/menu.jpg"
+ *     type="website"
+ *   />
+ */
+
+interface Props {
+  /** Page-specific title. The site name is always appended via the template. */
+  title?: string;
+  /** Page-specific meta description (< 160 chars recommended). */
+  description?: string;
+  /** Absolute URL or root-relative path to the OG image (1200×630 px ideal). */
+  image?: string;
+  /** OG type — "website" for most pages, "article" for blog/events. */
+  type?: "website" | "article";
+  /** Override the canonical URL (defaults to the current page URL). */
+  canonical?: string;
+  /** Set to true on utility pages that shouldn't be indexed. */
+  noIndex?: boolean;
+}
+
+const SITE_NAME = "Grogg's Traditional Irish Pub";
+const SITE_URL = "https://www.groggsclovis.com";
+const DEFAULT_DESCRIPTION =
+  "Where Tradition Meets Modern Hospitality. A neighborhood Irish pub in Clovis, California serving traditional fare, craft beer, and live entertainment.";
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.jpg`;
+const TWITTER_HANDLE = "@groggspub";
+
+const {
+  title,
+  description = DEFAULT_DESCRIPTION,
+  image = DEFAULT_OG_IMAGE,
+  type = "website",
+  canonical,
+  noIndex = false,
+} = Astro.props;
+
+// Build the <title> tag: page title + site name, or just site name for root.
+const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+
+// Resolve absolute canonical URL.
+const canonicalURL =
+  canonical ?? new URL(Astro.url.pathname, SITE_URL).href;
+
+// Ensure image is absolute.
+const ogImage = image.startsWith("http") ? image : `${SITE_URL}${image}`;
+---
+
+<!-- Primary meta -->
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+{noIndex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={TWITTER_HANDLE} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />

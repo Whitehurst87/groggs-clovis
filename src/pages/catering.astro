@@ -1,0 +1,340 @@
+---
+/**
+ * catering.astro
+ * --------------------------------------------------------------------------
+ * Private Events & Catering landing page — B2B funnel.
+ * Sections:
+ *  1. Hero
+ *  2. Why Choose Us (value props)
+ *  3. Packages (3 tiers)
+ *  4. Photo Gallery (placeholder — swap with real event photos)
+ *  5. FAQ (details/summary, no JS)
+ *  6. Quote Request Form (React island → Formspree)
+ *
+ * Organization + Service JSON-LD included for SEO.
+ */
+
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import Button from "../components/Button.astro";
+import QuoteRequestForm from "../components/react/QuoteRequestForm";
+import { generateCateringSchema } from "../lib/schema";
+
+import heroBg      from "../assets/images/Interior Bar.png";
+import groupPhoto1 from "../assets/images/Happy Group.jpg";
+import groupPhoto2 from "../assets/images/Smiling Three.jpg";
+import groupPhoto3 from "../assets/images/Smiling Girls.jpg";
+import groupPhoto4 from "../assets/images/Three Happy Guys.jpg";
+import groupPhoto5 from "../assets/images/Two Smiling Girls.jpg";
+import groupPhoto6 from "../assets/images/Two Happy Girls.jpg";
+
+const cateringSchema = generateCateringSchema();
+
+const packages = [
+  {
+    name: "Intimate Gathering",
+    capacity: "Up to 30 guests",
+    icon: "🍀",
+    features: [
+      "Private dining area",
+      "Set food menu (choose 2 mains + 2 sides)",
+      "Bar tab or cash bar",
+      "Dedicated server",
+      "2-hour minimum booking",
+    ],
+    cta: "Ideal for: birthdays, work lunches, rehearsal dinners",
+    featured: false,
+  },
+  {
+    name: "Party Package",
+    capacity: "30–80 guests",
+    icon: "🎉",
+    features: [
+      "Semi-private section of the pub",
+      "Custom food & drink menu",
+      "DJ or live music option",
+      "Décor coordination",
+      "Dedicated event coordinator",
+      "3-hour minimum booking",
+    ],
+    cta: "Ideal for: corporate events, milestone birthdays, team celebrations",
+    featured: true,
+  },
+  {
+    name: "Full Venue Buyout",
+    capacity: "80+ guests",
+    icon: "🏰",
+    features: [
+      "Exclusive use of the entire pub",
+      "Fully custom food & drink menu",
+      "Live entertainment welcome",
+      "Branding / decorations throughout",
+      "Dedicated event manager on-site",
+      "Flexible booking duration",
+    ],
+    cta: "Ideal for: weddings, large corporate parties, charity events",
+    featured: false,
+  },
+];
+
+const faqs = [
+  {
+    q: "How far in advance should I book?",
+    a: "We recommend booking at least 4–6 weeks in advance for smaller gatherings, and 2–3 months for larger parties or full buyouts. Popular dates (St. Patrick's Day weekend, New Year's Eve, etc.) book out fast.",
+  },
+  {
+    q: "Is a deposit required?",
+    a: "Yes — a refundable 25% deposit is required to secure your date. The remaining balance is due 72 hours before the event.",
+  },
+  {
+    q: "Can I bring my own cake or dessert?",
+    a: "Absolutely! Outside cakes and desserts are welcome for private events. A small plating fee may apply.",
+  },
+  {
+    q: "Do you accommodate dietary restrictions?",
+    a: "Yes. We can accommodate vegetarian, vegan, and gluten-free guests. Please note dietary requirements when submitting your quote request.",
+  },
+  {
+    q: "Is there a minimum spend?",
+    a: "Minimum spend varies by package and day of the week. We'll outline all minimums in your personalised quote.",
+  },
+  {
+    q: "Can you do off-site catering?",
+    a: "We offer select off-site catering services within the greater Clovis / Fresno area. Reach out with your details and we'll confirm availability.",
+  },
+];
+---
+
+<BaseLayout
+  title="Private Events & Catering | Grogg's Traditional Irish Pub"
+  description="Host your next event at Grogg's Traditional Irish Pub in Clovis, CA. Intimate gatherings, party packages, and full venue buyouts — authentic Irish atmosphere, custom menus, and dedicated event coordination."
+  ogType="website"
+>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(cateringSchema)}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  1. HERO                                                                -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="relative flex min-h-[70vh] flex-col items-center justify-center overflow-hidden px-6 py-20 text-center">
+    <div class="absolute inset-0 z-0">
+      <Image
+        src={heroBg}
+        alt="Grogg's Pub interior — perfect for private events"
+        class="h-full w-full object-cover brightness-[0.35]"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-wood-darker/70 via-transparent to-wood-darker"></div>
+    </div>
+
+    <div class="relative z-10 flex flex-col items-center gap-6 max-w-3xl">
+      <p class="display-caps text-[#f5f82f] text-sm tracking-[0.5em]">
+        Private Events & Catering
+      </p>
+      <h1 class="font-alternate uppercase tracking-wide text-5xl sm:text-6xl lg:text-7xl text-[#f5f82f] leading-[1.1] drop-shadow-2xl">
+        Make It Memorable
+      </h1>
+      <p class="font-body text-text-secondary text-lg sm:text-xl max-w-2xl leading-relaxed italic">
+        "From intimate dinners to full pub buyouts — let Grogg's be the backdrop for your next unforgettable event."
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 mt-4">
+        <Button href="#quote-form" size="lg" class="px-10">
+          Get a Quote
+        </Button>
+        <Button href="tel:+15559876543" variant="outline" size="lg" class="px-10">
+          Call Us
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  2. WHY CHOOSE US                                                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+      <SectionTitle subtitle="Everything you need, nothing you don't">
+        Why Host at Grogg's
+      </SectionTitle>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-14">
+        {[
+          {
+            icon: `<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>`,
+            title: "Authentic Atmosphere",
+            body: "An actual Irish pub — not a banquet hall. Rich wood, warm lighting, and a real pub feel your guests won't forget.",
+          },
+          {
+            icon: `<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>`,
+            title: "Custom Menus",
+            body: "Work with our kitchen to design a menu that fits your event — pub classics, finger food platters, or a full sit-down service.",
+          },
+          {
+            icon: `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
+            title: "Dedicated Coordinator",
+            body: "A single point of contact from your first quote to the last round. We handle the details so you can enjoy your event.",
+          },
+          {
+            icon: `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
+            title: "Flexible Booking",
+            body: "Weekday or weekend, afternoon or late-night — we work around your schedule, not the other way around.",
+          },
+        ].map(({ icon, title, body }) => (
+          <div class="flex flex-col gap-4 rounded-sm border border-wood-mid bg-wood-dark p-6 hover:border-pub-green/40 transition-colors">
+            <div class="flex h-12 w-12 items-center justify-center rounded-sm bg-pub-green/15 text-pub-green">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icon} />
+            </div>
+            <h3 class="display-caps text-base text-text-primary">{title}</h3>
+            <p class="text-sm text-text-secondary leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  3. PACKAGES                                                            -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="py-20 px-4 bg-wood-dark/60">
+    <div class="max-w-7xl mx-auto">
+      <SectionTitle subtitle="Choose the package that fits your event">
+        Event Packages
+      </SectionTitle>
+
+      <div class="grid lg:grid-cols-3 gap-8 mt-14 items-start">
+        {packages.map(({ name, capacity, icon, features, cta, featured }) => (
+          <div class={[
+            "flex flex-col rounded-sm border bg-wood-dark transition-all duration-300",
+            "hover:shadow-[0_0_24px_2px_rgba(21,122,54,0.3)]",
+            featured
+              ? "border-pub-green shadow-[0_0_20px_1px_rgba(21,122,54,0.25)] scale-[1.02]"
+              : "border-wood-mid",
+          ].join(" ")}>
+            {featured && (
+              <div class="bg-pub-green px-4 py-1.5 text-center">
+                <span class="display-caps text-xs tracking-widest text-white">Most Popular</span>
+              </div>
+            )}
+            <div class="flex flex-col gap-5 p-8">
+              <div class="text-4xl" aria-hidden="true">{icon}</div>
+              <div>
+                <h3 class="display-caps text-xl text-text-primary">{name}</h3>
+                <p class="mt-1 text-sm text-pub-green font-semibold tracking-wide">{capacity}</p>
+              </div>
+              <ul class="space-y-2.5">
+                {features.map((f) => (
+                  <li class="flex items-start gap-2.5 text-sm text-text-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0 text-pub-green" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <p class="text-xs text-text-muted italic border-t border-wood-mid pt-4">{cta}</p>
+              <Button href="#quote-form" variant={featured ? "primary" : "outline"} class="w-full justify-center mt-auto">
+                Request a Quote
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-10 text-center text-sm text-text-muted">
+        Pricing is customised per event. Submit a quote request and we'll get back to you within one business day.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  4. PHOTO GALLERY (placeholder — replace with real event photos)        -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+      <SectionTitle subtitle="Good people, great times">
+        Events at Grogg's
+      </SectionTitle>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-14">
+        {[groupPhoto1, groupPhoto2, groupPhoto3, groupPhoto4, groupPhoto5, groupPhoto6].map((photo, i) => (
+          <div class="relative overflow-hidden rounded-sm aspect-[4/3] bg-wood-dark group">
+            <Image
+              src={photo}
+              alt={`Guests enjoying a private event at Grogg's Traditional Irish Pub — photo ${i + 1}`}
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 brightness-90"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-wood-darker/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  5. FAQ                                                                 -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="py-20 px-4 bg-wood-dark/60">
+    <div class="max-w-3xl mx-auto">
+      <SectionTitle subtitle="Common questions, straight answers">
+        FAQ
+      </SectionTitle>
+
+      <div class="mt-14 space-y-3">
+        {faqs.map(({ q, a }) => (
+          <details class="group rounded-sm border border-wood-mid bg-wood-dark open:border-pub-green/40 transition-colors">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-semibold uppercase tracking-widest text-text-primary select-none [&::-webkit-details-marker]:hidden">
+              {q}
+              <!-- Chevron rotates when open -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="shrink-0 text-pub-green transition-transform duration-300 group-open:rotate-180"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </summary>
+            <div class="border-t border-wood-mid px-6 pb-5 pt-4">
+              <p class="text-sm text-text-secondary leading-relaxed">{a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  6. QUOTE REQUEST FORM                                                  -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="quote-form" class="py-20 px-4 scroll-mt-20">
+    <div class="max-w-3xl mx-auto">
+      <SectionTitle subtitle="Tell us about your event and we'll be in touch within one business day">
+        Request a Quote
+      </SectionTitle>
+
+      <div class="mt-14 rounded-sm border border-wood-mid bg-wood-dark p-6 sm:p-10">
+        <QuoteRequestForm client:load />
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  Bottom CTA strip                                                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="bg-pub-green py-14 px-4 text-center">
+    <p class="display-caps text-2xl sm:text-3xl text-white mb-4">Prefer to talk it through?</p>
+    <p class="text-white/80 text-sm mb-8 max-w-md mx-auto">
+      Give us a call and we'll walk you through your options over the phone.
+    </p>
+    <Button href="tel:+15559876543" variant="ghost" size="lg" class="border border-white/50 hover:bg-white hover:text-pub-green">
+      Call Us Now
+    </Button>
+  </section>
+</BaseLayout>

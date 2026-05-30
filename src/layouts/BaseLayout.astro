@@ -1,38 +1,108 @@
 ---
 /**
- * BaseLayout
+ * BaseLayout.astro
  * --------------------------------------------------------------------------
- * Minimal scaffolding for Phase 0. The fully-fledged <head> SEO defaults,
- * <SEO> component, header, footer, and sticky mobile bar are built out in
- * Phase 1.
+ * Master page shell. Every page on the site wraps its content in this layout.
+ *
+ * What lives here:
+ *  - Full <head> with charset, viewport, favicon, theme-color, SEO component
+ *  - Global font & style imports
+ *  - <Header> (sticky green nav)
+ *  - <main> with wood-texture background
+ *  - <Footer> (3-col grid + green bottom bar)
+ *  - <MobileActionBar> (sticky Call/Directions/Menu bar on mobile)
+ *
+ * Page-level SEO overrides are passed through to the <SEO> component.
  */
+
 import "../styles/fonts.css";
 import "../styles/global.css";
 
+import faviconImg from "../assets/images/favicon.png";
+
+import SEO from "../components/SEO.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import MobileActionBar from "../components/MobileActionBar.astro";
+
 interface Props {
+  /** Page-specific title (site name appended automatically by <SEO>). */
   title?: string;
+  /** Page-specific meta description. */
   description?: string;
+  /** Root-relative or absolute path to the OG image. */
+  ogImage?: string;
+  /** OG type — defaults to "website". */
+  ogType?: "website" | "article";
+  /** Override canonical URL. */
+  canonical?: string;
+  /** Set true to noindex utility/admin pages. */
+  noIndex?: boolean;
 }
 
 const {
-  title = "Grogg's Traditional Irish Pub | Clovis, CA",
-  description = "Where Tradition Meets Modern Hospitality. A neighborhood Irish pub in Clovis, California serving traditional fare, craft beer, and live entertainment.",
+  title,
+  description,
+  ogImage,
+  ogType,
+  canonical,
+  noIndex,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="bg-wood-darker">
   <head>
+    <!-- Charset + Viewport (must be first) -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href={faviconImg.src} />
+
+    <!-- Theme color (matches pub-green for mobile browser chrome) -->
+    <meta name="theme-color" content="#157a36" />
+
+    <!-- Astro generator tag -->
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+
+    <!-- SEO component — handles title, description, OG, Twitter, canonical -->
+    <SEO
+      title={title}
+      description={description}
+      image={ogImage}
+      type={ogType}
+      canonical={canonical}
+      noIndex={noIndex}
+    />
+
+    <!-- Preconnect hints (fontsource ships files from the same bundle, no CDN needed) -->
   </head>
+
   <body class="bg-wood-darker text-text-primary font-body antialiased">
-    <main class="min-h-screen">
+    <!-- Skip to main content (A11y) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-sm focus:bg-pub-green focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
+    >
+      Skip to main content
+    </a>
+
+    <!-- Sticky green navigation header -->
+    <Header />
+
+    <!-- Page content — wood-texture overlay, bottom padding for mobile bar -->
+    <main
+      id="main-content"
+      class="wood-texture min-h-screen pb-mobile-bar md:pb-0"
+    >
       <slot />
     </main>
+
+    <!-- Footer -->
+    <Footer />
+
+    <!-- Sticky mobile bottom action bar (Call · Directions · Menu) -->
+    <MobileActionBar />
   </body>
 </html>

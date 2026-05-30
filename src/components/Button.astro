@@ -1,0 +1,83 @@
+---
+/**
+ * Button.astro
+ * --------------------------------------------------------------------------
+ * Polymorphic button / anchor component.
+ *
+ * Usage:
+ *   <Button href="/menu">View Menu</Button>
+ *   <Button variant="outline" size="sm" type="submit">Submit</Button>
+ *
+ * When `href` is supplied the element renders as <a>; otherwise as <button>.
+ */
+
+interface Props {
+  /** Renders as <a> when provided. */
+  href?: string;
+  /** Visual style of the button. */
+  variant?: "primary" | "outline" | "ghost";
+  /** Size preset. */
+  size?: "sm" | "md" | "lg";
+  /** Passed through to <button>. */
+  type?: "button" | "submit" | "reset";
+  /** Additional Tailwind classes. */
+  class?: string;
+  /** Accessible label override (for icon-only buttons). */
+  "aria-label"?: string;
+  /** Open link in new tab. */
+  target?: "_blank" | "_self";
+  /** Rel attribute for links. */
+  rel?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  type = "button",
+  class: className = "",
+  target,
+  rel,
+  ...rest
+} = Astro.props;
+
+// Base styles shared by all variants
+const base =
+  "inline-flex items-center justify-center gap-2 font-semibold tracking-wider uppercase transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pub-green focus-visible:ring-offset-2 focus-visible:ring-offset-wood-darker disabled:pointer-events-none disabled:opacity-50";
+
+// Variant styles
+const variants: Record<string, string> = {
+  primary:
+    "bg-pub-green hover:bg-pub-green-dark active:bg-pub-green-dark text-white rounded-sm border border-transparent",
+  outline:
+    "bg-transparent hover:bg-pub-green/10 active:bg-pub-green/20 text-pub-green border border-pub-green rounded-sm",
+  ghost:
+    "bg-transparent hover:bg-white/10 active:bg-white/20 text-white border border-transparent rounded-sm",
+};
+
+// Size styles
+const sizes: Record<string, string> = {
+  sm: "px-4 py-2 text-xs",
+  md: "px-6 py-3 text-sm",
+  lg: "px-8 py-4 text-base",
+};
+
+const classes = [base, variants[variant], sizes[size], className]
+  .filter(Boolean)
+  .join(" ");
+
+const isLink = typeof href === "string";
+---
+
+{
+  isLink ? (
+    <a href={href} class={classes} target={target} rel={rel} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}

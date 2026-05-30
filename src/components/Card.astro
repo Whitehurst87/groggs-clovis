@@ -1,0 +1,101 @@
+---
+/**
+ * Card.astro
+ * --------------------------------------------------------------------------
+ * Reusable pub-style card with optional image, title, description, and price.
+ * Hover state: subtle green outer glow, per design.md.
+ *
+ * Usage:
+ *   <Card
+ *     title="Guinness Draught"
+ *     description="Perfectly poured nitrogenated stout…"
+ *     image={{ src: guinnessImg, alt: "Pint of Guinness" }}
+ *     price={7.50}
+ *   />
+ *
+ *   <!-- Or use the default slot for custom body content -->
+ *   <Card title="Custom Item">
+ *     <p>My custom content</p>
+ *   </Card>
+ */
+
+import PriceTag from "./PriceTag.astro";
+
+interface ImageProps {
+  src: string | ImageMetadata;
+  alt: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: ImageProps;
+  price?: number | string;
+  /** Makes the card a link wrapper. */
+  href?: string;
+  /** Additional classes on the outer element. */
+  class?: string;
+  /** Adds a featured green border accent on the left. */
+  featured?: boolean;
+}
+
+const {
+  title,
+  description,
+  image,
+  price,
+  href,
+  class: className = "",
+  featured = false,
+} = Astro.props;
+
+const Tag = href ? "a" : "div";
+
+const baseClasses = [
+  "group flex flex-col overflow-hidden rounded-sm",
+  "bg-wood-dark border border-wood-mid",
+  "transition-all duration-300",
+  "hover:shadow-[0_0_20px_2px_rgba(21,122,54,0.35)] hover:border-pub-green/50",
+  featured ? "border-l-4 border-l-pub-green" : "",
+  href ? "cursor-pointer" : "",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<Tag href={href} class={baseClasses}>
+  {
+    image && (
+      <div class="relative overflow-hidden aspect-[16/10]">
+        <img
+          src={typeof image.src === "string" ? image.src : (image.src as ImageMetadata).src}
+          alt={image.alt}
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    )
+  }
+
+  <div class="flex flex-col flex-1 gap-2 p-4">
+    <div class="flex items-start justify-between gap-2">
+      <h3 class="display-caps text-base sm:text-lg text-text-primary leading-snug">
+        {title}
+      </h3>
+      {price !== undefined && <PriceTag price={price} class="shrink-0 mt-0.5" />}
+    </div>
+
+    {
+      description && (
+        <p class="text-text-secondary font-body text-sm leading-relaxed">
+          {description}
+        </p>
+      )
+    }
+
+    <!-- Optional custom slot content -->
+    <slot />
+  </div>
+</Tag>

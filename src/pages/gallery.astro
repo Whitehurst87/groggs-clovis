@@ -1,0 +1,152 @@
+---
+/**
+ * gallery.astro
+ * --------------------------------------------------------------------------
+ * Photo gallery with category filtering and lightbox.
+ * All images are imported and optimised by Astro at build time; only the
+ * resolved .src URLs are passed to the GalleryLightbox React island.
+ *
+ * Categories: Interior · Food · Events · Crew
+ * (Drinks category is defined but unpopulated — photos TBD from client)
+ *
+ * When real photography arrives, add images to src/assets/images/ and
+ * add entries to the galleryImages array below.
+ */
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import GalleryLightbox from "../components/react/GalleryLightbox";
+import type { GalleryImage } from "../components/react/GalleryLightbox";
+
+// ── Image imports (Astro resolves + optimises at build time) ────────────────
+import heroBg          from "../assets/images/exterior sign.webp";
+import interiorBar     from "../assets/images/Interior Bar.png";
+import wingsAndBeer    from "../assets/images/Wings and Beer.jpg";
+import phillyPhoto     from "../assets/images/Philly Sandwich.jpg";
+import monteCristo     from "../assets/images/Monte Cristo Sandwich.png";
+import happyGroup      from "../assets/images/Happy Group.jpg";
+import smilingThree    from "../assets/images/Smiling Three.jpg";
+import threeGuys       from "../assets/images/Three Happy Guys.jpg";
+import smilingGirls    from "../assets/images/Smiling Girls.jpg";
+import twoSmilingGirls from "../assets/images/Two Smiling Girls.jpg";
+import twoHappyGirls   from "../assets/images/Two Happy Girls.jpg";
+
+// ── Gallery data ─────────────────────────────────────────────────────────────
+// Add / reorder entries here as new photos come in.
+const galleryImages: GalleryImage[] = [
+  // Interior
+  {
+    src: interiorBar.src,
+    alt: "Warm pub interior at Grogg's Traditional Irish Pub, Clovis CA",
+    category: "Interior",
+  },
+  // Food
+  {
+    src: wingsAndBeer.src,
+    alt: "Crispy wings served with a cold pint at Grogg's",
+    category: "Food",
+  },
+  {
+    src: phillyPhoto.src,
+    alt: "Philly cheesesteak sandwich — a pub favourite",
+    category: "Food",
+  },
+  {
+    src: monteCristo.src,
+    alt: "Monte Cristo sandwich with dusted powdered sugar",
+    category: "Food",
+  },
+  // Events
+  {
+    src: happyGroup.src,
+    alt: "A group of friends celebrating at Grogg's Irish Pub",
+    category: "Events",
+  },
+  {
+    src: smilingThree.src,
+    alt: "Three guests smiling at a private event at Grogg's",
+    category: "Events",
+  },
+  {
+    src: threeGuys.src,
+    alt: "Three happy guys enjoying the craic at Grogg's",
+    category: "Events",
+  },
+  // Crew / Atmosphere
+  {
+    src: smilingGirls.src,
+    alt: "Friends laughing together at Grogg's Traditional Irish Pub",
+    category: "Crew",
+  },
+  {
+    src: twoSmilingGirls.src,
+    alt: "Two guests smiling at Grogg's pub in Clovis",
+    category: "Crew",
+  },
+  {
+    src: twoHappyGirls.src,
+    alt: "Happy guests at Grogg's Traditional Irish Pub",
+    category: "Crew",
+  },
+];
+---
+
+<BaseLayout
+  title="Gallery | Grogg's Traditional Irish Pub"
+  description="Take a look inside Grogg's Traditional Irish Pub in Clovis, CA — from our cozy interior and hearty food to the great times had by our guests."
+>
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <!--  Hero Section                                                           -->
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <section class="relative flex min-h-[40vh] flex-col items-center justify-center overflow-hidden px-6 py-20 text-center">
+    <div class="absolute inset-0 z-0">
+      <Image
+        src={heroBg}
+        alt="Grogg's exterior sign"
+        class="h-full w-full object-cover brightness-[0.4]"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-wood-darker/70 via-transparent to-wood-darker"></div>
+    </div>
+    <div class="relative z-10 flex flex-col items-center gap-6 max-w-3xl">
+      <p class="display-caps text-[#f5f82f] text-sm tracking-[0.5em]">A peek inside the pub</p>
+      <h1 class="font-alternate uppercase tracking-wide text-5xl sm:text-6xl text-[#f5f82f] leading-[1.1] drop-shadow-2xl">Photo Gallery</h1>
+      <p class="font-body text-text-secondary text-lg max-w-2xl leading-relaxed">
+        Browse by category or click any photo to view it full-screen.
+        Real event photography coming soon — contact us to book your own session.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-14 px-4">
+    <div class="max-w-7xl mx-auto">
+      <!-- GalleryLightbox React island -->
+      <GalleryLightbox client:load images={galleryImages} />
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <!--  CTA strip                                                              -->
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <section class="bg-pub-green py-14 px-4 text-center">
+    <p class="display-caps text-2xl sm:text-3xl text-white mb-4">
+      Want to see it in person?
+    </p>
+    <p class="text-white/80 text-sm mb-8 max-w-md mx-auto">
+      Come visit us in Clovis — or get in touch to discuss hosting your next private event.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-2 rounded-sm border border-white/50 px-8 py-3.5 text-sm font-semibold uppercase tracking-widest text-white transition-all hover:bg-white hover:text-pub-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+      >
+        Find Us
+      </a>
+      <a
+        href="/catering"
+        class="inline-flex items-center gap-2 rounded-sm bg-white px-8 py-3.5 text-sm font-semibold uppercase tracking-widest text-pub-green transition-all hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+      >
+        Book a Private Event
+      </a>
+    </div>
+  </section>
+</BaseLayout>

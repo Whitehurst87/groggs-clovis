@@ -1,0 +1,62 @@
+---
+/**
+ * SectionTitle.astro
+ * --------------------------------------------------------------------------
+ * Cinzel ALL-CAPS heading flanked by decorative divider lines.
+ * Matches the design.md spec: "subtle horizontal lines above and below
+ * the section title in a muted brown/gold hue."
+ *
+ * Usage:
+ *   <SectionTitle>Our Brews &amp; Spirits</SectionTitle>
+ *   <SectionTitle subtitle="Fresh from the tap" align="left">
+ *     Draft Beer
+ *   </SectionTitle>
+ */
+
+interface Props {
+  /** Optional smaller subtitle rendered below the title. */
+  subtitle?: string;
+  /** Text / content alignment. */
+  align?: "left" | "center" | "right";
+  /** Heading level to render — defaults to h2. */
+  as?: "h1" | "h2" | "h3" | "h4";
+  /** Additional classes on the wrapper. */
+  class?: string;
+}
+
+const { subtitle, align = "center", as: Tag = "h2", class: className = "" } =
+  Astro.props;
+
+const alignClass: Record<string, string> = {
+  left: "items-start text-left",
+  center: "items-center text-center",
+  right: "items-end text-right",
+};
+---
+
+<div class={`flex flex-col gap-3 ${alignClass[align]} ${className}`}>
+  <!-- Top divider row -->
+  <div class="flex w-full items-center gap-4">
+    <span class="h-px flex-1 bg-gradient-to-r from-transparent via-wood-mid to-transparent opacity-80"></span>
+    <span class="text-[#f5f82f] text-lg leading-none select-none" aria-hidden="true">✦</span>
+    <span class="h-px flex-1 bg-gradient-to-l from-transparent via-wood-mid to-transparent opacity-80"></span>
+  </div>
+
+  <!-- Heading -->
+  <Tag class="display-caps text-2xl sm:text-3xl lg:text-4xl text-text-primary">
+    <slot />
+  </Tag>
+
+  {subtitle && (
+    <p class="text-text-secondary font-body text-sm sm:text-base tracking-wide">
+      {subtitle}
+    </p>
+  )}
+
+  <!-- Bottom divider row -->
+  <div class="flex w-full items-center gap-4">
+    <span class="h-px flex-1 bg-gradient-to-r from-transparent via-wood-mid to-transparent opacity-80"></span>
+    <span class="text-[#f5f82f] text-lg leading-none select-none" aria-hidden="true">✦</span>
+    <span class="h-px flex-1 bg-gradient-to-l from-transparent via-wood-mid to-transparent opacity-80"></span>
+  </div>
+</div>

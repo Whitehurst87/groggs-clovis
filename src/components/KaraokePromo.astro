@@ -1,0 +1,67 @@
+---
+/**
+ * KaraokePromo.astro
+ * --------------------------------------------------------------------------
+ * Promotional section for the weekly Wednesday night Karaoke event.
+ */
+import { Image } from "astro:assets";
+import SectionTitle from "./SectionTitle.astro";
+import karaokeImg from "../assets/images/Karaoke Graphic DJ 808.jpg";
+import Button from "./Button.astro";
+---
+
+<section class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 bg-wood-darker/50">
+  <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+    <!-- Image / Visual -->
+    <div class="relative group order-2 lg:order-1">
+      <div class="absolute -inset-4 bg-pub-green/20 rounded-lg blur-2xl group-hover:bg-pub-green/30 transition-colors duration-500"></div>
+      <div class="relative overflow-hidden rounded-lg shadow-2xl border border-white/5">
+        <Image
+          src={karaokeImg}
+          alt="Wednesday Night Karaoke with Mic Drop Entertainment"
+          class="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+      </div>
+    </div>
+
+    <!-- Text Content -->
+    <div class="flex flex-col gap-6 order-1 lg:order-2">
+      <SectionTitle align="left" subtitle="Mic Drop Entertainment">
+        Wednesday Night Karaoke
+      </SectionTitle>
+      
+      <div class="font-body text-text-secondary text-lg leading-relaxed flex flex-col gap-4">
+        <p>
+          Grab the mic and join us every Wednesday for the most energetic karaoke night in Clovis! 
+          Hosted by <strong>DJ 808</strong> from Mic Drop Entertainment, it's a night of great music, 
+          singing, and unbeatable atmosphere.
+        </p>
+        <p>
+          Whether you're a seasoned performer or a first-timer, our stage is open to everyone. 
+          Enjoy special drink deals and the best pub vibes while you show off your talent.
+        </p>
+      </div>
+
+      <div class="mt-4 flex flex-col sm:flex-row gap-8 items-start sm:items-center border-t border-white/10 pt-8">
+         <div class="flex flex-col">
+            <span class="display-caps text-[#f5f82f] text-2xl font-bold">8:30 PM</span>
+            <span class="text-text-muted text-sm uppercase tracking-wider">Every Wednesday</span>
+         </div>
+         <div class="flex flex-col">
+            <span class="display-caps text-[#f5f82f] text-2xl font-bold">No Cover</span>
+            <span class="text-text-muted text-sm uppercase tracking-wider">Free to Join</span>
+         </div>
+         <div class="flex flex-col">
+            <span class="display-caps text-[#f5f82f] text-2xl font-bold">$5</span>
+            <span class="text-text-muted text-sm uppercase tracking-wider">Select Drinks</span>
+         </div>
+      </div>
+
+      <div class="mt-6">
+        <Button href="/events" variant="primary">
+          View All Events
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
